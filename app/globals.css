@@ -1,0 +1,75 @@
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&family=Playfair+Display:wght@500;600;700;800&display=swap');
+
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+:root {
+  --navy: #0f2347;
+  --navy-light: #1b3a6b;
+  --gold: #c9a24b;
+  --gold-light: #e3c478;
+}
+
+@layer base {
+  html {
+    scroll-behavior: smooth;
+  }
+
+  body {
+    font-family: 'Inter', sans-serif;
+    color: #1e293b;
+  }
+
+  h1, h2, h3, h4, .font-display {
+    font-family: 'Playfair Display', serif;
+  }
+}
+
+@layer components {
+  .btn-primary {
+    @apply inline-flex items-center justify-center gap-2 bg-amber-500 text-slate-900 px-7 py-3.5 rounded-lg font-semibold tracking-wide shadow-lg shadow-amber-500/25 hover:bg-amber-400 hover:-translate-y-0.5 transition-all duration-200;
+  }
+
+  .btn-outline {
+    @apply inline-flex items-center justify-center gap-2 bg-transparent text-white border border-white/40 px-7 py-3.5 rounded-lg font-semibold tracking-wide hover:bg-white/10 hover:border-white transition-all duration-200;
+  }
+
+  .btn-dark {
+    @apply inline-flex items-center justify-center gap-2 bg-[#0f2347] text-white px-7 py-3.5 rounded-lg font-semibold tracking-wide shadow-lg hover:bg-[#1b3a6b] hover:-translate-y-0.5 transition-all duration-200;
+  }
+
+  .card {
+    @apply bg-white rounded-2xl border border-slate-100 shadow-[0_10px_40px_-15px_rgba(15,35,71,0.2)] transition-all duration-300;
+  }
+
+  .card-hover:hover {
+    @apply -translate-y-1.5 shadow-[0_25px_55px_-20px_rgba(15,35,71,0.35)] border-amber-200;
+  }
+
+  .eyebrow {
+    @apply inline-flex items-center gap-2 text-xs font-semibold uppercase tracking-[0.18em] text-amber-600;
+  }
+
+  .input-field {
+    @apply w-full px-4 py-3 bg-slate-50 border border-slate-200 rounded-lg text-slate-800 placeholder-slate-400 focus:bg-white focus:ring-2 focus:ring-amber-400/60 focus:border-amber-400 outline-none transition-all duration-200;
+  }
+
+  .section-title {
+    @apply text-3xl md:text-4xl font-bold text-[#0f2347];
+  }
+}
+
+@keyframes fadeUp {
+  from { opacity: 0; transform: translateY(20px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+.animate-fade-up {
+  animation: fadeUp 0.7s ease-out both;
+}
+
+.bg-grid {
+  background-image: radial-gradient(circle at 1px 1px, rgba(255,255,255,0.08) 1px, transparent 0);
+  background-size: 28px 28px;
+}
