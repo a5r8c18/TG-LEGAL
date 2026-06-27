@@ -57,9 +57,13 @@ export function getUsers(): AuthUser[] {
 /** Roles que ya tienen un usuario registrado (Supabase via RPC o localStorage). */
 export async function takenRoles(): Promise<Role[]> {
   if (supabase) {
-    const { data, error } = await supabase.rpc('roles_taken')
-    if (error) throw new Error(error.message)
-    return ((data as string[]) ?? []).filter((r): r is Role => ROLES.includes(r as Role))
+    try {
+      const { data, error } = await supabase.rpc('roles_taken')
+      if (error) return []
+      return ((data as string[]) ?? []).filter((r): r is Role => ROLES.includes(r as Role))
+    } catch {
+      return []
+    }
   }
   return readUsers().map((u) => u.role)
 }
