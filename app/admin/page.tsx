@@ -159,10 +159,25 @@ export default function AdminPage() {
 
   if (checkingAuth || loading) {
     return (
-      <div className="min-h-screen bg-slate-50 flex items-center justify-center">
-        <div className="text-center">
-          <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-amber-500 mx-auto"></div>
-          <p className="mt-4 text-slate-500">{checkingAuth ? 'Verificando acceso...' : 'Cargando asesorías...'}</p>
+      <div className="min-h-screen bg-[#0f2347] flex items-center justify-center">
+        <div className="flex flex-col items-center gap-6">
+          <div className="relative">
+            <svg className="animate-spin w-20 h-20" viewBox="0 0 80 80" fill="none" xmlns="http://www.w3.org/2000/svg">
+              <circle cx="40" cy="40" r="36" stroke="white" strokeOpacity="0.08" strokeWidth="6" />
+              <path d="M40 4 a36 36 0 0 1 36 36" stroke="#f59e0b" strokeWidth="6" strokeLinecap="round" />
+            </svg>
+            <div className="absolute inset-0 flex items-center justify-center">
+              <div className="w-12 h-12 bg-white/10 rounded-xl flex items-center justify-center backdrop-blur-sm">
+                <Icon name="scale" size={22} className="text-amber-400" />
+              </div>
+            </div>
+          </div>
+          <div className="text-center">
+            <p className="font-display text-white font-semibold text-lg tracking-wide">Teneduría García</p>
+            <p className="text-amber-400/70 text-xs tracking-[0.2em] uppercase font-medium mt-0.5">
+              {checkingAuth ? 'Verificando acceso...' : 'Cargando panel...'}
+            </p>
+          </div>
         </div>
       </div>
     )

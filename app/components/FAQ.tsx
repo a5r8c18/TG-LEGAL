@@ -3,6 +3,8 @@
 import { useState } from 'react'
 import { Icon } from './Icon'
 
+const FREE_COUNT = 2
+
 interface FAQItem {
   question: string
   answer: string
@@ -19,7 +21,7 @@ const faqData: FAQItem[] = [
   },
   {
     question: '¿Cuáles son los métodos de pago aceptados?',
-    answer: 'Aceptamos pagos internacionales a través de PayPal, transferencias bancarias, y otros métodos electrónicos seguros. Para clientes dentro de Cuba, también aceptamos transferencias locales y efectivo en nuestras oficinas.'
+    answer: 'Aceptamos link de pago (Majority) para clientes en Estados Unidos, y USDT (criptomoneda) para clientes en el resto del mundo. Te enviaremos el link directamente a tu WhatsApp.'
   },
   {
     question: '¿Cuánto tiempo toma resolver un trámite legal?',
@@ -42,8 +44,8 @@ const faqData: FAQItem[] = [
     answer: 'Los documentos varían según el servicio. Generalmente necesitarás identificación válida, documentos relacionados con tu caso (títulos, contratos, etc.), y poderes si actúas en representación de terceros. Te enviaremos una lista específica después de analizar tu caso.'
   },
   {
-    question: '¿Ofrecen consultas gratuitas?',
-    answer: 'La primera consulta tiene un costo simbólico para evaluar tu caso y determinar la mejor estrategia. Este monto se descuenta del costo total si decides proceder con nuestros servicios. Creemos en el valor del trabajo profesional desde el inicio.'
+    question: '¿Cuánto cuesta la suscripción mensual?',
+    answer: 'La suscripción al Plan Información tiene un costo de $5 USD al mes. Con ella accedes a todas las preguntas frecuentes, detalles de servicios y orientación general. Para consultas personalizadas con un especialista, existe un plan adicional.'
   },
   {
     question: '¿Cómo puedo hacer seguimiento a mi caso?',
@@ -58,10 +60,14 @@ export function FAQ() {
     setOpenIndex(openIndex === index ? null : index)
   }
 
+  const freeItems = faqData.slice(0, FREE_COUNT)
+  const lockedItems = faqData.slice(FREE_COUNT)
+
   return (
     <div className="max-w-3xl mx-auto">
       <div className="space-y-4">
-        {faqData.map((item, index) => (
+        {/* Free FAQs */}
+        {freeItems.map((item, index) => (
           <div
             key={index}
             className="bg-white border border-slate-200 rounded-xl overflow-hidden transition-all duration-200 hover:shadow-md"
@@ -93,6 +99,56 @@ export function FAQ() {
             </div>
           </div>
         ))}
+
+        {/* Locked FAQs with paywall overlay */}
+        <div className="relative">
+          {/* Blurred preview items */}
+          <div className="space-y-4 select-none pointer-events-none" aria-hidden="true">
+            {lockedItems.slice(0, 3).map((item, index) => (
+              <div
+                key={index}
+                className="bg-white border border-slate-200 rounded-xl overflow-hidden"
+                style={{ filter: 'blur(4px)', opacity: 0.5 }}
+              >
+                <div className="px-6 py-5 flex items-center justify-between gap-4">
+                  <span className="font-display text-lg font-semibold text-[#0f2347] pr-4">
+                    {item.question}
+                  </span>
+                  <div className="flex-shrink-0 w-8 h-8 rounded-full bg-[#0f2347]/10 flex items-center justify-center text-[#0f2347]">
+                    <Icon name="chevron" size={16} />
+                  </div>
+                </div>
+              </div>
+            ))}
+          </div>
+
+          {/* Gradient fade */}
+          <div className="absolute inset-x-0 top-0 h-20 bg-gradient-to-b from-white/0 to-white/0" />
+
+          {/* Paywall overlay */}
+          <div className="absolute inset-x-0 -bottom-4 -top-2 flex flex-col items-center justify-center bg-gradient-to-t from-white via-white/95 to-transparent rounded-2xl pt-10 pb-2">
+            <div className="text-center px-6 py-6 max-w-sm">
+              <div className="w-14 h-14 bg-[#0f2347] text-amber-400 rounded-2xl flex items-center justify-center mx-auto mb-4 shadow-lg">
+                <Icon name="lock" size={26} />
+              </div>
+              <h3 className="font-display text-xl font-bold text-[#0f2347] mb-2">
+                {lockedItems.length} preguntas más disponibles
+              </h3>
+              <p className="text-slate-500 text-sm mb-5 leading-relaxed">
+                Accede a todas las respuestas detalladas y orientación completa con el <strong>Plan Información</strong> por solo <span className="text-amber-600 font-bold">$5/mes</span>.
+              </p>
+              <a
+                href="/suscripcion"
+                className="btn-primary w-full text-sm"
+              >
+                Ver planes y suscribirme →
+              </a>
+              <p className="text-xs text-slate-400 mt-3">
+                Sin pasarela automática · Te enviamos el link de pago por WhatsApp
+              </p>
+            </div>
+          </div>
+        </div>
       </div>
     </div>
   )

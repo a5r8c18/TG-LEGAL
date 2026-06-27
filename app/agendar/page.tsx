@@ -1,4 +1,4 @@
-'use client'
+﻿'use client'
 
 import { useState } from 'react'
 import { Icon } from '../components/Icon'
@@ -147,13 +147,38 @@ export default function AgendarPage() {
           <span className="eyebrow !text-amber-400 justify-center mb-4">Solicitud de asesoría</span>
           <h1 className="text-3xl md:text-4xl font-bold mb-3">Cuéntanos sobre tu caso</h1>
           <p className="text-blue-100/70">Completa el formulario y un especialista te contactará para orientarte.</p>
+          <div className="mt-6 bg-amber-500/15 border border-amber-500/30 rounded-xl p-4 text-left">
+            <p className="text-sm text-amber-200 font-semibold mb-1">📄 Esta consulta requiere el Plan Especialista</p>
+            <p className="text-xs text-blue-100/60 leading-relaxed">
+              La consulta directa con un especialista tiene un costo de <strong className="text-white">$35/sesión</strong>. Al enviar este formulario te contactaremos para coordinar el pago antes de la sesión.
+              &nbsp;·&nbsp; <a href="/suscripcion" className="text-amber-300 underline hover:text-amber-200">Ver todos los planes</a>
+            </p>
+            <div className="mt-3 flex flex-col sm:flex-row gap-2 text-xs text-blue-100/50">
+              <span className="flex items-center gap-1.5"><span className="inline-block w-4 h-3 rounded-sm overflow-hidden flex-shrink-0"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 60 30" className="w-full h-full"><rect width="60" height="30" fill="#B22234"/><rect y="2.3" width="60" height="2.3" fill="#fff"/><rect y="6.9" width="60" height="2.3" fill="#fff"/><rect y="11.5" width="60" height="2.3" fill="#fff"/><rect y="16.2" width="60" height="2.3" fill="#fff"/><rect y="20.8" width="60" height="2.3" fill="#fff"/><rect y="25.4" width="60" height="2.3" fill="#fff"/><rect width="24" height="16.2" fill="#3C3B6E"/></svg></span> EE.UU — Majority</span>
+              <span className="hidden sm:inline text-blue-100/30">·</span>
+              <span className="flex items-center gap-1.5"><span className="inline-flex w-4 h-3 rounded-sm overflow-hidden flex-shrink-0 bg-slate-500 items-center justify-center"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="white" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className="w-2.5 h-2.5"><circle cx="12" cy="12" r="9"/><path d="M3 12h18"/><path d="M12 3a14 14 0 0 1 0 18 14 14 0 0 1 0-18Z"/></svg></span> Otros países — USDT</span>
+            </div>
+          </div>
         </div>
       </div>
 
       {/* Form Section */}
       <section className="py-12 px-4 sm:px-6 lg:px-8 -mt-8">
         <div className="max-w-2xl mx-auto">
-          <div className="card p-8">
+                    {/* Payment notice */}
+          <div className="bg-amber-50 border border-amber-200 rounded-xl p-4 mb-4">
+            <div className="grid sm:grid-cols-2 gap-3">
+              <div className="flex items-start gap-3">
+                <span className="inline-block w-6 h-4 rounded-sm overflow-hidden flex-shrink-0 mt-0.5 shadow-sm"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 60 30" className="w-full h-full"><rect width="60" height="30" fill="#B22234"/><rect y="2.3" width="60" height="2.3" fill="#fff"/><rect y="6.9" width="60" height="2.3" fill="#fff"/><rect y="11.5" width="60" height="2.3" fill="#fff"/><rect y="16.2" width="60" height="2.3" fill="#fff"/><rect y="20.8" width="60" height="2.3" fill="#fff"/><rect y="25.4" width="60" height="2.3" fill="#fff"/><rect width="24" height="16.2" fill="#3C3B6E"/></svg></span>
+                <p className="text-xs text-amber-800 leading-relaxed"><strong className="text-amber-900">Estados Unidos</strong><br/>Link de pago <strong>Majority</strong> enviado a tu WhatsApp.</p>
+              </div>
+              <div className="flex items-start gap-3">
+                <span className="inline-flex w-6 h-4 rounded-sm overflow-hidden flex-shrink-0 mt-0.5 shadow-sm bg-slate-500 items-center justify-center"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="white" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className="w-3 h-3"><circle cx="12" cy="12" r="9"/><path d="M3 12h18"/><path d="M12 3a14 14 0 0 1 0 18 14 14 0 0 1 0-18Z"/></svg></span>
+                <p className="text-xs text-amber-800 leading-relaxed"><strong className="text-amber-900">Otros pa&#237;ses</strong><br/>Solo aceptamos <strong>USDT</strong> (criptomoneda).</p>
+              </div>
+            </div>
+          </div>
+                    <div className="card p-8">
             
             {error && (
               <div className="bg-red-50 border border-red-200 text-red-700 px-4 py-3 rounded-lg mb-6">

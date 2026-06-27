@@ -72,6 +72,25 @@ export async function createLawyer(payload: NewLawyer): Promise<Lawyer> {
   return record
 }
 
+export async function updateLawyer(id: string, payload: Partial<NewLawyer & { active: boolean }>): Promise<Lawyer> {
+  if (supabase) {
+    const { data, error } = await supabase
+      .from(TABLE)
+      .update(payload)
+      .eq('id', id)
+      .select()
+      .single()
+    if (error) throw new Error(error.message)
+    return data as Lawyer
+  }
+  const items = readLocal()
+  const index = items.findIndex((l) => l.id === id)
+  if (index === -1) throw new Error('Abogado no encontrado.')
+  items[index] = { ...items[index], ...payload }
+  writeLocal(items)
+  return items[index]
+}
+
 export async function deleteLawyer(id: string): Promise<void> {
   if (supabase) {
     const { error } = await supabase.from(TABLE).delete().eq('id', id)
