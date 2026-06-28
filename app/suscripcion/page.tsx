@@ -3,6 +3,7 @@
 import { useState } from 'react'
 import { Icon } from '../components/Icon'
 import { LanguageSelector } from '../components/LanguageSelector'
+import { createSubscriber } from '../lib/subscribers'
 
 const WHATSAPP_NUMBER = '17868135148'
 
@@ -85,18 +86,27 @@ export default function SuscripcionPage() {
     )
   }
 
-  const handleSubmit = (e: React.FormEvent) => {
+  const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault()
     setLoading(true)
 
+    try {
+      await createSubscriber({
+        name: formData.name,
+        whatsapp: formData.whatsapp,
+        country: formData.country,
+        plan: selectedPlan!,
+        payment_method: formData.paymentMethod,
+      })
+    } catch {
+      // Si falla el guardado, igual abrimos WhatsApp para no perder la solicitud
+    }
+
     const msg = buildWhatsAppMessage()
     const url = `https://wa.me/${WHATSAPP_NUMBER}?text=${msg}`
-
-    setTimeout(() => {
-      window.open(url, '_blank')
-      setLoading(false)
-      setStep('success')
-    }, 600)
+    window.open(url, '_blank')
+    setLoading(false)
+    setStep('success')
   }
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement>) => {

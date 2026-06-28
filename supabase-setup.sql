@@ -151,6 +151,59 @@ create policy "consultations_delete_auth"
   using (true);
 
 -- ============================================================
+-- SUSCRIPTORES
+-- ============================================================
+create table if not exists public.subscribers (
+  id             uuid primary key default gen_random_uuid(),
+  name           text not null,
+  whatsapp       text not null,
+  country        text not null,
+  plan           text not null check (plan in ('info','especialista')),
+  payment_method text not null check (payment_method in ('majority','usdt')),
+  status         text not null default 'pending'
+                   check (status in ('pending','paid','active','cancelled','expired')),
+  notes          text,
+  created_at     timestamptz not null default now(),
+  updated_at     timestamptz not null default now()
+);
+
+create index if not exists idx_subscribers_status     on public.subscribers (status);
+create index if not exists idx_subscribers_created_at on public.subscribers (created_at desc);
+
+drop trigger if exists trg_subscribers_updated_at on public.subscribers;
+create trigger trg_subscribers_updated_at
+  before update on public.subscribers
+  for each row execute function public.set_updated_at();
+
+alter table public.subscribers enable row level security;
+
+-- Cualquier visitante puede INSERTAR su solicitud (formulario público)
+drop policy if exists "subscribers_insert_anon" on public.subscribers;
+create policy "subscribers_insert_anon"
+  on public.subscribers for insert
+  to anon
+  with check (true);
+
+-- Solo admins pueden leer y gestionar
+drop policy if exists "subscribers_select_auth" on public.subscribers;
+create policy "subscribers_select_auth"
+  on public.subscribers for select
+  to authenticated
+  using (true);
+
+drop policy if exists "subscribers_update_auth" on public.subscribers;
+create policy "subscribers_update_auth"
+  on public.subscribers for update
+  to authenticated
+  using (true) with check (true);
+
+drop policy if exists "subscribers_delete_auth" on public.subscribers;
+create policy "subscribers_delete_auth"
+  on public.subscribers for delete
+  to authenticated
+  using (true);
+
+-- ============================================================
 -- Datos de ejemplo (opcional)
 -- ============================================================
 insert into public.consultations

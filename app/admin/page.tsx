@@ -16,6 +16,8 @@ import { getLawyers, seedLocalLawyers, type Lawyer } from '../lib/lawyers'
 import { getSession, logout, roleLabel, type Session } from '../lib/auth'
 import { LawyersManager } from './components/LawyersManager'
 import { ManageConsultationModal } from './components/ManageConsultationModal'
+import { SubscribersManager } from './components/SubscribersManager'
+import { getSubscribers, type Subscriber } from '../lib/subscribers'
 
 type Appointment = Consultation
 
@@ -30,6 +32,7 @@ export default function AdminPage() {
   const [checkingAuth, setCheckingAuth] = useState(true)
   const [appointments, setAppointments] = useState<Appointment[]>([])
   const [lawyers, setLawyers] = useState<Lawyer[]>([])
+  const [subscribers, setSubscribers] = useState<Subscriber[]>([])
   const [selected, setSelected] = useState<Consultation | null>(null)
   const [loading, setLoading] = useState(true)
   const [error, setError] = useState('')
@@ -46,7 +49,7 @@ export default function AdminPage() {
       if (!active) return
       setSession(current)
       setCheckingAuth(false)
-      await Promise.all([fetchAppointments(), fetchLawyers()])
+      await Promise.all([fetchAppointments(), fetchLawyers(), fetchSubscribers()])
     })()
     return () => {
       active = false
@@ -56,6 +59,14 @@ export default function AdminPage() {
   const handleLogout = async () => {
     await logout()
     router.replace('/admin/login')
+  }
+
+  const fetchSubscribers = async () => {
+    try {
+      setSubscribers(await getSubscribers())
+    } catch (err: any) {
+      setError(err.message || 'Error al cargar suscriptores')
+    }
   }
 
   const fetchLawyers = async () => {
@@ -255,6 +266,9 @@ export default function AdminPage() {
 
           {/* Lawyers management */}
           <LawyersManager lawyers={lawyers} onChanged={fetchLawyers} />
+
+          {/* Subscribers management */}
+          <SubscribersManager subscribers={subscribers} onChanged={fetchSubscribers} />
 
           {/* Filter */}
           <div className="card mb-6">
