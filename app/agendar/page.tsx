@@ -3,6 +3,7 @@
 import { useState } from 'react'
 import { Icon } from '../components/Icon'
 import { createConsultation } from '../lib/consultations'
+import { LanguageSelector } from '../components/LanguageSelector'
 
 export default function AgendarPage() {
   const [formData, setFormData] = useState({
@@ -134,9 +135,12 @@ export default function AgendarPage() {
                 <span className="block text-[11px] tracking-[0.2em] text-amber-600 font-semibold uppercase">SURL · Soluciones Legales</span>
               </div>
             </a>
-            <a href="/" className="text-sm font-medium text-slate-600 hover:text-[#0f2347] transition-colors">
-              ← Volver al inicio
-            </a>
+            <div className="flex items-center gap-3">
+              <LanguageSelector />
+              <a href="/" className="text-sm font-medium text-slate-600 hover:text-[#0f2347] transition-colors">
+                ← Volver al inicio
+              </a>
+            </div>
           </div>
         </div>
       </header>

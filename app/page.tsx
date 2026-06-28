@@ -1,6 +1,7 @@
 import { Icon, type IconName } from './components/Icon'
 import { CubanFlag } from './components/CubanFlag'
 import { FAQ } from './components/FAQ'
+import { LanguageSelector } from './components/LanguageSelector'
 
 const services: { icon: IconName; title: string; desc: string }[] = [
   {
@@ -83,8 +84,10 @@ export default function HomePage() {
               <a href="#faq" className="text-sm font-medium text-slate-600 hover:text-[#0f2347] transition-colors">FAQ</a>
               <a href="/admin" className="flex items-center gap-1.5 text-sm font-medium text-slate-600 hover:text-[#0f2347] transition-colors"><Icon name="lock" size={15} /> Panel</a>
               <a href="/agendar" className="btn-dark text-sm !px-6 !py-3">Solicitar Asesoría</a>
+              <LanguageSelector />
             </nav>
             <div className="md:hidden flex items-center gap-3">
+              <LanguageSelector />
               <a href="/admin" className="text-slate-600 hover:text-[#0f2347]" aria-label="Panel administrativo"><Icon name="lock" size={20} /></a>
               <a href="/agendar" className="btn-dark text-sm !px-4 !py-2.5">Asesoría</a>
             </div>
